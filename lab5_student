@@ -1,0 +1,44 @@
+package lab5;
+
+public class Student implements Comparable<Student> {
+    private String name;
+    private int course;
+    private double averageGrade;
+    private double scholarship;
+
+    public Student(String name, int course, double averageGrade, double scholarship) {
+        this.name = name;
+        this.course = course;
+        this.averageGrade = averageGrade;
+        this.scholarship = scholarship;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCourse() {
+        return course;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public double getScholarship() {
+        return scholarship;
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        return this.name.compareToIgnoreCase(other.name);
+    }
+
+    @Override
+    public String toString() {
+        return "Имя: " + name +
+               ", курс: " + course +
+               ", средний балл: " + averageGrade +
+               ", стипендия: " + scholarship;
+    }
+}
