@@ -1,0 +1,95 @@
+package lab2_2;
+
+public class DeterminantCalculator {
+
+    public static double determinant(double[][] matrix) {
+        int n = matrix.length;
+
+        for (int i = 0; i < n; i++) {
+            if (matrix[i].length != n) {
+                throw new IllegalArgumentException("Матрица должна быть квадратной!");
+            }
+        }
+
+        if (n == 1) {
+            return matrix[0][0];
+        }
+        if (n == 2) {
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        }
+
+        double det = 0;
+        for (int col = 0; col < n; col++) {
+            double[][] minor = getMinor(matrix, 0, col);
+            double cofactor = Math.pow(-1, col) * matrix[0][col] * determinant(minor);
+            det += cofactor;
+        }
+
+        return det;
+    }
+
+    private static double[][] getMinor(double[][] matrix, int row, int col) {
+        int n = matrix.length;
+        double[][] minor = new double[n - 1][n - 1];
+
+        int minorRow = 0;
+        for (int i = 0; i < n; i++) {
+            if (i == row) continue;
+            int minorCol = 0;
+            for (int j = 0; j < n; j++) {
+                if (j == col) continue;
+                minor[minorRow][minorCol] = matrix[i][j];
+                minorCol++;
+            }
+            minorRow++;
+        }
+
+        return minor;
+    }
+
+    public static void printMatrix(double[][] matrix) {
+        for (double[] row : matrix) {
+            for (double val : row) {
+                System.out.printf("%8.2f ", val);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        double[][] matrix3x3 = {
+            {1, 2, 3},
+            {0, 4, 5},
+            {1, 0, 6}
+        };
+
+        System.out.println("Матрица 3x3:");
+        printMatrix(matrix3x3);
+        System.out.println("Определитель = " + determinant(matrix3x3));
+
+        System.out.println("=".repeat(50));
+
+        double[][] matrix2x2 = {
+            {3, 8},
+            {4, 6}
+        };
+
+        System.out.println("Матрица 2x2:");
+        printMatrix(matrix2x2);
+        System.out.println("Определитель = " + determinant(matrix2x2));
+
+        System.out.println("=".repeat(50));
+
+        double[][] matrix4x4 = {
+            {1, 0, 2, -1},
+            {3, 0, 0, 5},
+            {2, 1, 4, -3},
+            {1, 0, 5, 0}
+        };
+
+        System.out.println("Матрица 4x4:");
+        printMatrix(matrix4x4);
+        System.out.println("Определитель = " + determinant(matrix4x4));
+    }
+}
