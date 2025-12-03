@@ -1,0 +1,49 @@
+package lab4;
+
+public class Main {
+    public static void main(String[] args) {
+        Ward[] wards = {
+            new Ward(4, "Ivanov", true),
+            new Ward(3, "Petrov", false),
+            new Ward(2, "Sidorov", true),
+            new Ward(5, "Smirnov", false)
+        };
+
+        int totalPlaces = 0;
+        int wardsWithFreeBeds = 0;
+
+        for (Ward ward : wards) {
+            totalPlaces += ward.getPlaces();
+            if (ward.hasFreeBeds()) {
+                wardsWithFreeBeds++;
+            }
+        }
+
+        System.out.println("Общее количество мест: " + totalPlaces);
+        System.out.println("Количество палат со свободными койками: " + wardsWithFreeBeds);
+    }
+}
+
+class Ward {
+    private int places;
+    private String doctorSurname;
+    private boolean hasFreeBeds;
+
+    public Ward(int places, String doctorSurname, boolean hasFreeBeds) {
+        this.places = places;
+        this.doctorSurname = doctorSurname;
+        this.hasFreeBeds = hasFreeBeds;
+    }
+
+    public int getPlaces() {
+        return places;
+    }
+
+    public String getDoctorSurname() {
+        return doctorSurname;
+    }
+
+    public boolean hasFreeBeds() {
+        return hasFreeBeds;
+    }
+}
