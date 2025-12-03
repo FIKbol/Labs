@@ -1,0 +1,185 @@
+package lab6;
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<House> houses = new ArrayList<>();
+
+        File input = new File("houses.txt");
+        System.out.println("Ищу файл по пути: " + input.getAbsolutePath());
+
+        try (BufferedReader br = new BufferedReader(new FileReader(input))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                String[] parts = line.split("\\s+");
+                if (parts.length != 8) {
+                    System.out.println("Пропускаю строку (ожидалось 8 значений): " + line);
+                    continue;
+                }
+
+                int id = Integer.parseInt(parts[0]);
+                int apartmentNumber = Integer.parseInt(parts[1]);
+                double area = Double.parseDouble(parts[2]);     // формат: 45.5
+                int floor = Integer.parseInt(parts[3]);
+                int rooms = Integer.parseInt(parts[4]);
+                String street = parts[5];
+                String buildingType = parts[6];
+                int lifetime = Integer.parseInt(parts[7]);
+
+                houses.add(new House(id, apartmentNumber, area, floor,
+                                     rooms, street, buildingType, lifetime));
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла: " + e.getMessage());
+            return;
+        }
+
+        Collections.sort(houses);
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter("houses_sorted.txt"))) {
+            pw.println("Отсортированный список квартир:");
+            for (House h : houses) {
+                pw.println(h);          // вызывается toString()
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка записи файла: " + e.getMessage());
+        }
+
+
+        int requiredRooms = 3;
+        int minFloor = 2;
+        int maxFloor = 6;
+        double minArea = 50.0;
+
+        System.out.println("\nКвартиры с " + requiredRooms + " комнатами:");
+        for (House h : filterByRooms(houses, requiredRooms)) {
+            System.out.println(h);
+        }
+
+        System.out.println("\nКвартиры с " + requiredRooms +
+                " комнатами и этаж в диапазоне [" + minFloor + "; " + maxFloor + "]:");
+        for (House h : filterByRoomsAndFloorRange(houses, requiredRooms, minFloor, maxFloor)) {
+            System.out.println(h);
+        }
+
+        System.out.println("\nКвартиры с площадью больше " + minArea + ":");
+        for (House h : filterByAreaGreaterThan(houses, minArea)) {
+            System.out.println(h);
+        }
+    }
+
+    private static List<House> filterByRooms(List<House> houses, int rooms) {
+        List<House> result = new ArrayList<>();
+        for (House h : houses) {
+            if (h.getRooms() == rooms) {
+                result.add(h);
+            }
+        }
+        return result;
+    }
+
+    private static List<House> filterByRoomsAndFloorRange(
+            List<House> houses, int rooms, int minFloor, int maxFloor) {
+        List<House> result = new ArrayList<>();
+        for (House h : houses) {
+            if (h.getRooms() == rooms &&
+                h.getFloor() >= minFloor &&
+                h.getFloor() <= maxFloor) {
+                result.add(h);
+            }
+        }
+        return result;
+    }
+
+    private static List<House> filterByAreaGreaterThan(List<House> houses, double minArea) {
+        List<House> result = new ArrayList<>();
+        for (House h : houses) {
+            if (h.getArea() > minArea) {
+                result.add(h);
+            }
+        }
+        return result;
+    }
+}
+
+class House implements Comparable<House> {
+    private int id;
+    private int apartmentNumber;
+    private double area;
+    private int floor;
+    private int rooms;
+    private String street;
+    private String buildingType;
+    private int lifetime; // срок эксплуатации (лет)
+
+    public House(int id, int apartmentNumber, double area, int floor,
+                 int rooms, String street, String buildingType, int lifetime) {
+        this.id = id;
+        this.apartmentNumber = apartmentNumber;
+        this.area = area;
+        this.floor = floor;
+        this.rooms = rooms;
+        this.street = street;
+        this.buildingType = buildingType;
+        this.lifetime = lifetime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getApartmentNumber() {
+        return apartmentNumber;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public int getRooms() {
+        return rooms;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getBuildingType() {
+        return buildingType;
+    }
+
+    public int getLifetime() {
+        return lifetime;
+    }
+
+    @Override
+    public int compareTo(House other) {
+        return this.street.compareToIgnoreCase(other.street);
+
+    }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "id=" + id +
+                ", apt=" + apartmentNumber +
+                ", area=" + area +
+                ", floor=" + floor +
+                ", rooms=" + rooms +
+                ", street='" + street + '\'' +
+                ", type='" + buildingType + '\'' +
+                ", lifetime=" + lifetime +
+                '}';
+    }
+}
