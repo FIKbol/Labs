@@ -1,0 +1,118 @@
+package lab3;
+
+public class Main {
+    public static void main(String[] args) {
+        Shoes[] shoesArray = {
+            new Boots(38, "Ecco", "черный", 5.5, "зимние"),
+            new Sandals(37, "Zara", "бежевый", true),
+            new Sneakers(42, "ChinaFactory", "белый", "резиновая", "Nike")
+        };
+
+        for (Shoes shoe : shoesArray) {
+            shoe.brand();
+        }
+    }
+}
+
+class Shoes {
+    private int size;
+    private String manufacturer;
+    private String color;
+
+    public Shoes(int size, String manufacturer, String color) {
+        this.size = size;
+        this.manufacturer = manufacturer;
+        this.color = color;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void brand() {
+        System.out.println("Обувь бренда: " + manufacturer);
+    }
+}
+
+class Boots extends Shoes {
+    private double heelHeight;
+    private String seasonType;
+
+    public Boots(int size, String manufacturer, String color,
+                 double heelHeight, String seasonType) {
+        super(size, manufacturer, color);
+        this.heelHeight = heelHeight;
+        this.seasonType = seasonType;
+    }
+
+    public double getHeelHeight() {
+        return heelHeight;
+    }
+
+    public String getSeasonType() {
+        return seasonType;
+    }
+
+    @Override
+    public void brand() {
+        System.out.println("Сапоги бренда: " + getManufacturer()
+                + ", тип: " + seasonType
+                + ", каблук: " + heelHeight + " см");
+    }
+}
+
+class Sandals extends Shoes {
+    private boolean highlyOpen;
+
+    public Sandals(int size, String manufacturer, String color,
+                   boolean highlyOpen) {
+        super(size, manufacturer, color);
+        this.highlyOpen = highlyOpen;
+    }
+
+    public boolean isHighlyOpen() {
+        return highlyOpen;
+    }
+
+    @Override
+    public void brand() {
+        String openness = highlyOpen ? "сильно открытые" : "не сильно открытые";
+        System.out.println("Босоножки бренда: " + getManufacturer()
+                + ", " + openness);
+    }
+}
+
+class Sneakers extends Shoes {
+    private String soleType;
+    private String brandName;
+
+    public Sneakers(int size, String manufacturer, String color,
+                    String soleType, String brandName) {
+        super(size, manufacturer, color);
+        this.soleType = soleType;
+        this.brandName = brandName;
+    }
+
+    public String getSoleType() {
+        return soleType;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    @Override
+    public void brand() {
+        System.out.println("Кроссовки фирмы: " + brandName
+                + ", производитель: " + getManufacturer()
+                + ", тип подошвы: " + soleType);
+    }
+}
