@@ -1,0 +1,49 @@
+package lab2;
+import java.util.*;
+
+public class SecondPalindromeFinder {
+
+    public static boolean isPalindrome(int num) {
+        String str = String.valueOf(Math.abs(num)); 
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public static Integer findSecondPalindrome(int[] numbers) {
+        List<Integer> palindromes = new ArrayList<>();
+
+        for (int num : numbers) {
+            if (isPalindrome(num)) {
+                palindromes.add(num);
+            }
+        }
+
+        if (palindromes.size() < 2) {
+            return null;
+        }
+
+        return palindromes.get(1);
+    }
+
+    public static void main(String[] args) {
+        // Пример использования
+        int[] numbers = {121, 1331, 456, 787, 99, 1001, 12321};
+
+        Integer secondPalindrome = findSecondPalindrome(numbers);
+
+        if (secondPalindrome != null) {
+            System.out.println("Второе число-палиндром: " + secondPalindrome);
+        } else {
+            System.out.println("Меньше двух палиндромов в массиве.");
+        }
+    }
+}
