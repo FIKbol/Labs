@@ -35,7 +35,7 @@ public class SecondPalindromeFinder {
     }
 
     public static void main(String[] args) {
-        // Пример использования
+        
         int[] numbers = {121, 1331, 456, 787, 99, 1001, 12321};
 
         Integer secondPalindrome = findSecondPalindrome(numbers);
