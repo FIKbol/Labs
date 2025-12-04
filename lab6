@@ -26,7 +26,7 @@ public class Main {
 
                 int id = Integer.parseInt(parts[0]);
                 int apartmentNumber = Integer.parseInt(parts[1]);
-                double area = Double.parseDouble(parts[2]);     // формат: 45.5
+                double area = Double.parseDouble(parts[2]);     
                 int floor = Integer.parseInt(parts[3]);
                 int rooms = Integer.parseInt(parts[4]);
                 String street = parts[5];
